@@ -1,7 +1,7 @@
 from config import WHITE, WINDOWHEIGHT, WINDOWWIDTH
 import pygame
 import random
-velocity = 3
+velocity = 10
 
 class Ball(pygame.sprite.Sprite):
     def __init__(self):
@@ -24,7 +24,15 @@ class Ball(pygame.sprite.Sprite):
         display.blit(self.image, (self.rect.x, self.rect.y))
         
     def bounce(self,p1,p2):
-        if self.rect.left== p1.rect.right:
+        
+        if p1.rect.right-velocity<=self.rect.left<=p1.rect.right and p1.rect.top <= self.rect.bottom and p1.rect.bottom >= self.rect.top:
+            self.direction=(velocity,random.randint(-3,3))
+        if p2.rect.left+velocity>=self.rect.right>=p2.rect.left and p2.rect.top <= self.rect.bottom and p2.rect.bottom >= self.rect.top:
             self.direction=(-velocity,random.randint(-3,3))
-        if self.rect.right==p2.rect.left:
-            self.direction=(-velocity,random.randint(-3,3))
+        if self.rect.top <= 0:    
+            self.direction=(self.direction[0],-self.direction[1])
+        if self.rect.bottom >= WINDOWHEIGHT:
+            self.direction=(self.direction[0],-self.direction[1])
+            
+    
+            

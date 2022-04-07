@@ -15,11 +15,11 @@ screen.fill(cf.BLACK)
 
 paddleplayer1 = Paddle()
 paddleplayer1.rect.x = 10
-paddleplayer1.rect.y = 0
+paddleplayer1.rect.y = cf.WINDOWHEIGHT/2 - cf.HEIGHTp / 2
 
 paddleplayer2 = Paddle()
 paddleplayer2.rect.x = cf.WINDOWWIDTH - cf.WIDTHp - 10
-paddleplayer2.rect.y = 0
+paddleplayer2.rect.y = cf.WINDOWHEIGHT/2 - cf.HEIGHTp / 2
 
 ball = Ball()
 
@@ -42,7 +42,11 @@ def game():
         if keys[pygame.K_DOWN]:
             paddleplayer2.moveDown(5)
 
-        
+        #temp
+        if ball.rect.x>cf.WINDOWWIDTH or ball.rect.x < 0:  
+            break
+
+
         screen.fill(cf.BLACK)
         paddleplayer1.draw(screen)
         paddleplayer2.draw(screen)
