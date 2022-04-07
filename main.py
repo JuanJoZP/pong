@@ -1,6 +1,7 @@
 import pygame
 import config as cf
 from paddle import Paddle
+from ball import Ball
 
 pygame.init()
 
@@ -20,6 +21,9 @@ paddleplayer2 = Paddle()
 paddleplayer2.rect.x = cf.WINDOWWIDTH - cf.WIDTHp - 10
 paddleplayer2.rect.y = 0
 
+ball = Ball()
+
+
 clock = pygame.time.Clock()
 
 def game():
@@ -27,6 +31,7 @@ def game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             paddleplayer1.moveUp(5)
@@ -37,10 +42,13 @@ def game():
         if keys[pygame.K_DOWN]:
             paddleplayer2.moveDown(5)
 
-
+        
         screen.fill(cf.BLACK)
         paddleplayer1.draw(screen)
         paddleplayer2.draw(screen)
+        ball.draw(screen)
+        ball.move()
+        ball.bounce(paddleplayer1, paddleplayer2)
         pygame.display.update()
         clock.tick(60)
 
