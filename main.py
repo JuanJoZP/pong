@@ -15,23 +15,24 @@ screen.fill(cf.BLACK)
 
 paddleplayer1 = Paddle()
 paddleplayer1.rect.x = 10
-paddleplayer1.rect.y = cf.WINDOWHEIGHT/2 - cf.HEIGHTp / 2
+paddleplayer1.rect.y = cf.WINDOWHEIGHT / 2 - cf.HEIGHTp / 2
 
 paddleplayer2 = Paddle()
 paddleplayer2.rect.x = cf.WINDOWWIDTH - cf.WIDTHp - 10
-paddleplayer2.rect.y = cf.WINDOWHEIGHT/2 - cf.HEIGHTp / 2
+paddleplayer2.rect.y = cf.WINDOWHEIGHT / 2 - cf.HEIGHTp / 2
 
 ball = Ball()
 
 
 clock = pygame.time.Clock()
 
+
 def game():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-            
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             paddleplayer1.moveUp(5)
@@ -42,10 +43,14 @@ def game():
         if keys[pygame.K_DOWN]:
             paddleplayer2.moveDown(5)
 
-        #temp
-        if ball.rect.x>cf.WINDOWWIDTH or ball.rect.x < 0:  
-            break
+        # Points
+        if ball.rect.x > cf.WINDOWWIDTH:
+            paddleplayer1.scorePoint()
+            ball.reset(1)
 
+        if ball.rect.x < 0:
+            paddleplayer2.scorePoint()
+            ball.reset(0)
 
         screen.fill(cf.BLACK)
         paddleplayer1.draw(screen)
@@ -54,7 +59,7 @@ def game():
         ball.move()
         ball.bounce(paddleplayer1, paddleplayer2)
         pygame.display.update()
-        clock.tick(60)
+        clock.tick(cf.FPS)
 
 
 game()
