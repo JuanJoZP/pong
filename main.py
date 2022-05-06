@@ -1,30 +1,41 @@
 import pygame
-import config as cf
 from paddle import Paddle
 from ball import Ball
+from config import (
+    SIZE,
+    WINDOWHEIGHT,
+    WINDOWWIDTH,
+    BLACK,
+    WHITE,
+    PADDLE_WIDTH,
+    PADDLE_HEIGHT,
+    PADDLE_VELOCITY,
+    PADDLE_XSPACING,
+    FPS,
+)
 
+# window init
 pygame.init()
 
 icon = pygame.image.load("icon.xcf")
 pygame.display.set_icon(icon)
 pygame.display.set_caption("PONG")
 
-screen = pygame.display.set_mode(cf.SIZE)
-screen.fill(cf.BLACK)
-
-
-paddleplayer1 = Paddle()
-paddleplayer1.rect.x = 10
-paddleplayer1.rect.y = cf.WINDOWHEIGHT / 2 - cf.HEIGHTp / 2
-
-paddleplayer2 = Paddle()
-paddleplayer2.rect.x = cf.WINDOWWIDTH - cf.WIDTHp - 10
-paddleplayer2.rect.y = cf.WINDOWHEIGHT / 2 - cf.HEIGHTp / 2
-
-ball = Ball()
-
+screen = pygame.display.set_mode(SIZE)
+screen.fill(BLACK)
 
 clock = pygame.time.Clock()
+
+# paddle and ball init
+paddleplayer1 = Paddle()
+paddleplayer1.rect.x = PADDLE_XSPACING
+paddleplayer1.rect.y = WINDOWHEIGHT / 2 - PADDLE_HEIGHT / 2
+
+paddleplayer2 = Paddle()
+paddleplayer2.rect.x = WINDOWWIDTH - PADDLE_WIDTH - PADDLE_XSPACING
+paddleplayer2.rect.y = WINDOWHEIGHT / 2 - PADDLE_HEIGHT / 2
+
+ball = Ball()
 
 
 def game():
@@ -33,18 +44,23 @@ def game():
             if event.type == pygame.QUIT:
                 return
 
+        # key events
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
-            paddleplayer1.moveUp(5)
+            paddleplayer1.moveUp(PADDLE_VELOCITY)
         if keys[pygame.K_s]:
-            paddleplayer1.moveDown(5)
+            paddleplayer1.moveDown(PADDLE_VELOCITY)
         if keys[pygame.K_UP]:
-            paddleplayer2.moveUp(5)
+            paddleplayer2.moveUp(PADDLE_VELOCITY)
         if keys[pygame.K_DOWN]:
-            paddleplayer2.moveDown(5)
+            paddleplayer2.moveDown(PADDLE_VELOCITY)
+        if (not keys[pygame.K_w]) and (not keys[pygame.K_s]):
+            paddleplayer1.action = 0
+        if (not keys[pygame.K_UP]) and (not keys[pygame.K_DOWN]):
+            paddleplayer2.action = 0
 
-        # Points
-        if ball.rect.x > cf.WINDOWWIDTH:
+        # points and reset
+        if ball.rect.x > WINDOWWIDTH:
             paddleplayer1.scorePoint()
             ball.reset(1)
 
@@ -52,14 +68,15 @@ def game():
             paddleplayer2.scorePoint()
             ball.reset(0)
 
-        screen.fill(cf.BLACK)
+        # elements display
+        screen.fill(BLACK)
         paddleplayer1.draw(screen)
         paddleplayer2.draw(screen)
         ball.draw(screen)
-        ball.move()
         ball.bounce(paddleplayer1, paddleplayer2)
+
         pygame.display.update()
-        clock.tick(cf.FPS)
+        clock.tick(FPS)
 
 
 game()

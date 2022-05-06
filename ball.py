@@ -1,25 +1,66 @@
-from config import PAUSE_TIME, WHITE, WINDOWHEIGHT, WINDOWWIDTH, FPS, VELOCITY
 import pygame
-import random
+from config import (
+    PAUSE_TIME,
+    WHITE,
+    WINDOWHEIGHT,
+    WINDOWWIDTH,
+    FPS,
+    BALL_VELOCITY,
+    DIRECTION_MULTIPLIER,
+    DIRECTION_MAX,
+)
 
 
 class Ball(pygame.sprite.Sprite):
     def __init__(self):
-        pygame.sprite.Sprite.__init__(
-            self
-        )  # pygame module with basic game object classes
+        pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.Surface((10, 10))  # Create an image of the paddle
-        self.image.fill(WHITE)  # and add color
+        self.image = pygame.Surface((10, 10))
+        self.image.fill(WHITE)
 
-        self.rect = self.image.get_rect()  # Fetch the rectangle object
-        self.rect.x = WINDOWWIDTH / 2
+        self.rect = self.image.get_rect()
+        self.rect.x = WINDOWWIDTH / 2  # initial position
         self.rect.y = WINDOWHEIGHT / 2
-        self.direction = (VELOCITY, 0)
+        self.direction = (BALL_VELOCITY, 0)  # start moving right
 
         self.pause = PAUSE_TIME  # pause in seconds, only for the ball
 
-    def move(self):
+    def draw(self, display):
+        display.blit(self.image, (self.rect.x, self.rect.y))
+        self._move()
+
+    def bounce(self, p1, p2):
+        current_direction = self.direction
+        ball_rect = self.rect
+
+        # paddle collision
+        if ball_rect.colliderect(p1.rect):
+            self.direction = (
+                -current_direction[0],
+                self._apply_new_y(current_direction[1], p1.action),
+            )
+        if ball_rect.colliderect(p2.rect):
+            self.direction = (
+                -current_direction[0],
+                self._apply_new_y(current_direction[1], p2.action),
+            )
+
+        # border collision
+        if ball_rect.top <= 0 or ball_rect.bottom >= WINDOWHEIGHT:
+            self.direction = (current_direction[0], -current_direction[1])
+
+    def reset(self, direction):
+        self.rect.x = WINDOWWIDTH / 2
+        self.rect.y = WINDOWHEIGHT / 2
+
+        if direction:  # 1 for right, 0 for left
+            self.direction = (BALL_VELOCITY, 0)
+        else:
+            self.direction = (-BALL_VELOCITY, 0)
+
+        self.pause = PAUSE_TIME
+
+    def _move(self):
         if self.pause >= 0:
             self.pause -= 1 / FPS
             return
@@ -27,34 +68,8 @@ class Ball(pygame.sprite.Sprite):
         self.rect.x += self.direction[0]
         self.rect.y += self.direction[1]
 
-    def draw(self, display):
-        display.blit(self.image, (self.rect.x, self.rect.y))
+    def _apply_new_y(self, ball_y, paddle_y):
+        if abs(ball_y + paddle_y * DIRECTION_MULTIPLIER) > DIRECTION_MAX:
+            return ball_y  # the direction does not change if it gets over the max
 
-    def bounce(self, p1, p2):
-        if (
-            p1.rect.right - VELOCITY <= self.rect.left <= p1.rect.right
-            and p1.rect.top <= self.rect.bottom
-            and p1.rect.bottom >= self.rect.top
-        ):
-            self.direction = (VELOCITY, random.randint(-3, 3))
-        if (
-            p2.rect.left + VELOCITY >= self.rect.right >= p2.rect.left
-            and p2.rect.top <= self.rect.bottom
-            and p2.rect.bottom >= self.rect.top
-        ):
-            self.direction = (-VELOCITY, random.randint(-3, 3))
-        if self.rect.top <= 0:
-            self.direction = (self.direction[0], -self.direction[1])
-        if self.rect.bottom >= WINDOWHEIGHT:
-            self.direction = (self.direction[0], -self.direction[1])
-
-    def reset(self, direction):
-        self.rect.x = WINDOWWIDTH / 2
-        self.rect.y = WINDOWHEIGHT / 2
-
-        if direction:  # 1 for right, 0 for left
-            self.direction = (VELOCITY, 0)
-        else:
-            self.direction = (-VELOCITY, 0)
-
-        self.pause = PAUSE_TIME
+        return ball_y + paddle_y * DIRECTION_MULTIPLIER
