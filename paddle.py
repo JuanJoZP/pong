@@ -3,14 +3,12 @@ import pygame
 
 
 class Paddle(pygame.sprite.Sprite):
-    def __init__(self,p):
+    def __init__(self):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))
         self.image.fill(WHITE)
-        self.points = (
-            p  # DEV: usar esta variable para mostrar los puntos en la interfaz
-        )
+        self.points = 0
         self.action = 0  # 1- for up 1 for down (used in Ball())
 
         self.rect = self.image.get_rect()
@@ -32,6 +30,6 @@ class Paddle(pygame.sprite.Sprite):
 
     def scorePoint(self):
         self.points += 1
-    def printPoint(self):
-        self.points=self.points
+
+    def getPoints(self):
         return self.points
