@@ -1,19 +1,8 @@
 import pygame
-from paddle import Paddle
-from ball import Ball
-from score import draw_score
-from config import (
-    SIZE,
-    WINDOWHEIGHT,
-    WINDOWWIDTH,
-    BLACK,
-    WHITE,
-    PADDLE_WIDTH,
-    PADDLE_HEIGHT,
-    PADDLE_VELOCITY,
-    PADDLE_XSPACING,
-    FPS,
-)
+from game import game_1v1
+from menu import menu
+from config import BLACK, SIZE, FPS
+from settings import settings
 
 # window init
 pygame.init()
@@ -27,62 +16,26 @@ screen.fill(BLACK)
 
 clock = pygame.time.Clock()
 
-# paddle and ball init
-paddleplayer1 = Paddle()
-paddleplayer1.rect.x = PADDLE_XSPACING
-paddleplayer1.rect.y = WINDOWHEIGHT / 2 - PADDLE_HEIGHT / 2
-
-paddleplayer2 = Paddle()
-paddleplayer2.rect.x = WINDOWWIDTH - PADDLE_WIDTH - PADDLE_XSPACING
-paddleplayer2.rect.y = WINDOWHEIGHT / 2 - PADDLE_HEIGHT / 2
-
-ball = Ball()
+state = {"n": 0}  # 0 for menu, 1 for 1vsCPU, 2 for 1vs1, 3 for settings
 
 
-def game():
+def main():
+    global state
+
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return
 
-        # key events
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
-            paddleplayer1.moveUp(PADDLE_VELOCITY)
-        if keys[pygame.K_s]:
-            paddleplayer1.moveDown(PADDLE_VELOCITY)
-        if keys[pygame.K_UP]:
-            paddleplayer2.moveUp(PADDLE_VELOCITY)
-        if keys[pygame.K_DOWN]:
-            paddleplayer2.moveDown(PADDLE_VELOCITY)
-        if (not keys[pygame.K_w]) and (not keys[pygame.K_s]):
-            paddleplayer1.action = 0
-        if (not keys[pygame.K_UP]) and (not keys[pygame.K_DOWN]):
-            paddleplayer2.action = 0
-
-        # points and reset
-        if ball.rect.x > WINDOWWIDTH:
-            paddleplayer1.scorePoint()
-            ball.reset(1)
-
-        if ball.rect.x < 0:
-            paddleplayer2.scorePoint()
-            ball.reset(0)
-
-        if paddleplayer1.getPoints() == 7 or paddleplayer2.getPoints() == 7:  # TEMPORAL
-            break
-
-        # elements display
-        screen.fill(BLACK)
-        paddleplayer1.draw(screen)
-        paddleplayer2.draw(screen)
-        ball.draw(screen)
-        ball.bounce(paddleplayer1, paddleplayer2)
-        draw_score(screen, paddleplayer1.getPoints(), paddleplayer2.getPoints())
+        if state["n"] == 0:
+            menu(screen, state)
+        if state["n"] == 1:
+            pass
+        if state["n"] == 2:
+            game_1v1(screen)
+        if state["n"] == 3:
+            settings(screen, state)
 
         pygame.display.update()
         clock.tick(FPS)
 
 
-game()
+main()
 pygame.quit()
