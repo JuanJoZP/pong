@@ -4,8 +4,6 @@ import pygame
 
 class Paddle(pygame.sprite.Sprite):
     def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-
         self.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))
         self.image.fill(WHITE)
         self.points = 0
