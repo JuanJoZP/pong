@@ -1,5 +1,5 @@
 import pygame
-from game import game_1v1
+from game import game_1v1, game1vsCPU
 from menu import menu
 from config import BLACK, SIZE, FPS
 from settings import settings
@@ -27,7 +27,7 @@ def main():
         if state["n"] == 0:
             menu(screen, state)
         if state["n"] == 1:
-            pass
+            game1vsCPU(screen)
         if state["n"] == 2:
             game_1v1(screen)
         if state["n"] == 3:

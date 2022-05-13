@@ -21,7 +21,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = WINDOWWIDTH / 2  # initial position
         self.rect.y = WINDOWHEIGHT / 2
-        self.direction = (BALL_VELOCITY, 0)  # start moving right
+        self.direction = (-BALL_VELOCITY, 0)  # start moving right
 
         self.pause = PAUSE_TIME  # pause in seconds, only for the ball
 

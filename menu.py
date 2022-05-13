@@ -59,7 +59,7 @@ def menu(screen, state):
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if play_with_cpu.checkForInput(menu_mouse_position):
-                pass  # state["n"] = 1
+                state["n"] = 1
             if play_1vs1.checkForInput(menu_mouse_position):
                 state["n"] = 2
             if settings.checkForInput(menu_mouse_position):
