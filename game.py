@@ -65,3 +65,45 @@ def game_1v1(screen):
     ball.draw(screen)
     ball.bounce(paddleplayer1, paddleplayer2)
     draw_score(screen, paddleplayer1.getPoints(), paddleplayer2.getPoints())
+
+
+def game1vsCPU(screen):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+
+    # key events
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_w]:
+        paddleplayer1.moveUp(PADDLE_VELOCITY)
+    if keys[pygame.K_s]:
+        paddleplayer1.moveDown(PADDLE_VELOCITY)
+    if (not keys[pygame.K_w]) and (not keys[pygame.K_s]):
+        paddleplayer1.action = 0
+
+    if paddleplayer2.rect.midleft[1] < ball.rect.midleft[1]:
+        paddleplayer2.moveDown(PADDLE_VELOCITY)
+    elif paddleplayer2.rect.midleft[1] > ball.rect.midleft[1]:
+        paddleplayer2.moveUp(PADDLE_VELOCITY / 2)
+    else:
+        paddleplayer2.action = 0
+
+    # points and reset
+    if ball.rect.x > WINDOWWIDTH:
+        paddleplayer1.scorePoint()
+        ball.reset(1)
+
+    if ball.rect.x < 0:
+        paddleplayer2.scorePoint()
+        ball.reset(0)
+
+    if paddleplayer1.getPoints() == 7 or paddleplayer2.getPoints() == 7:  # TEMPORAL
+        return
+
+    # elements display
+    screen.fill(BLACK)
+    paddleplayer1.draw(screen)
+    paddleplayer2.draw(screen)
+    ball.draw(screen)
+    ball.bounce(paddleplayer1, paddleplayer2)
+    draw_score(screen, paddleplayer1.getPoints(), paddleplayer2.getPoints())
