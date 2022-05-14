@@ -21,6 +21,7 @@ state = {"n": 0}  # 0 for menu, 1 for 1vsCPU, 2 for 1vs1, 3 for settings
 
 def main():
     global state
+    pygame.time.set_timer(pygame.USEREVENT, 1000)
 
     while True:
 

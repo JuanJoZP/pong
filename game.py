@@ -9,6 +9,7 @@ from config import (
     PADDLE_VELOCITY,
     PADDLE_XSPACING,
     FPS,
+    WHITE,
 )
 from paddle import Paddle
 from ball import Ball
@@ -25,11 +26,22 @@ paddleplayer2.rect.y = WINDOWHEIGHT / 2 - PADDLE_HEIGHT / 2
 
 ball = Ball()
 
+pygame.init()
+counter = 10
+timer = f"{counter}"
+font = pygame.font.SysFont("inkfree", 25)
+
 
 def game_1v1(screen):
+    global timer
+    global counter
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
+        if event.type == pygame.USEREVENT:
+            counter -= 1
+            timer = f"{counter}" if counter > 0 else "End of the Game"
 
     # key events
     keys = pygame.key.get_pressed()
@@ -65,12 +77,19 @@ def game_1v1(screen):
     ball.draw(screen)
     ball.bounce(paddleplayer1, paddleplayer2)
     draw_score(screen, paddleplayer1.getPoints(), paddleplayer2.getPoints())
+    screen.blit(font.render(timer, True, (WHITE)), (465, 10))
 
 
 def game1vsCPU(screen):
+    global timer
+    global counter
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
+        if event.type == pygame.USEREVENT:
+            counter -= 1
+            timer = f"{counter}" if counter > 0 else "End of the Game"
 
     # key events
     keys = pygame.key.get_pressed()
@@ -107,3 +126,4 @@ def game1vsCPU(screen):
     ball.draw(screen)
     ball.bounce(paddleplayer1, paddleplayer2)
     draw_score(screen, paddleplayer1.getPoints(), paddleplayer2.getPoints())
+    screen.blit(font.render(timer, True, (WHITE)), (465, 10))
