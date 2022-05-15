@@ -72,6 +72,7 @@ def game_1v1(screen, state):
         paddleplayer2.scorePoint()
         ball.reset(0)
 
+    # game end
     if (
         int(timer_s) - counter <= 0
         or paddleplayer1.getPoints() >= int(state["data"]["max_score"])
@@ -88,7 +89,7 @@ def game_1v1(screen, state):
             winner = "draw"
 
         state["data"]["winner"] = winner
-        state["n"] = 6
+        state["n"] = 6  # go to end screen
 
     # elements display
     screen.fill(BLACK)
@@ -145,6 +146,7 @@ def game1vsCPU(screen, state):
         paddleplayer2.scorePoint()
         ball.reset(0)
 
+    # game end
     if (
         int(timer_s) - counter <= 0
         or paddleplayer1.getPoints() >= int(state["data"]["max_score"])
@@ -161,7 +163,7 @@ def game1vsCPU(screen, state):
             winner = "draw"
 
         state["data"]["winner"] = winner
-        state["n"] = 6
+        state["n"] = 6  # go to end screen
 
     # elements display
     screen.fill(BLACK)

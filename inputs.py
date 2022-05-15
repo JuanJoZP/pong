@@ -54,6 +54,7 @@ def inputs(screen, state, new_state):
 
     # elements display
 
+    # go to game when all values are filled
     if curr_input == 4:
         state["n"] = new_state
         state["data"] = {
@@ -62,7 +63,7 @@ def inputs(screen, state, new_state):
             "timer_s": inputs_responses[0],
             "max_score": inputs_responses[1],
         }
-    elif curr_input == 3 and new_state == 4:
+    elif curr_input == 3 and new_state == 4:  # when vs CPU (doesnt ask for p2 name)
         state["n"] == new_state
         state["data"] = {
             "p1_name": inputs_responses[2],

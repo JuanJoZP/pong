@@ -12,12 +12,12 @@ def get_font(size):
 
 
 def settings(screen, state):
-
     screen.blit(background2, (0, 0))
 
     paddle_v = config.settings["PADDLE_VELOCITY"]
     ball_v = config.settings["BALL_VELOCITY"]
 
+    # get all the texts
     menu_mouse_position = pygame.mouse.get_pos()
     menu_text = get_font(50).render("Settings", True, "WHITE")
     paddle_text = get_font(50).render(f"{paddle_v}", True, "WHITE")
@@ -26,6 +26,7 @@ def settings(screen, state):
     ball_rect = ball_text.get_rect(center=(465, 370))
     menu_rect = menu_text.get_rect(center=(465, 70))
 
+    # button init
     back_button = Button(
         position=(30, 30),
         input_text="<",
@@ -80,6 +81,7 @@ def settings(screen, state):
         if event.type == pygame.QUIT:
             pygame.quit()
 
+        # button events
         if event.type == pygame.MOUSEBUTTONDOWN:
             if back_button.checkForInput(menu_mouse_position):
                 state["n"] = 0
