@@ -3,25 +3,6 @@ import pygame
 from config import BLACK, WHITE
 
 
-def ask(screen, question):
-
-    pygame.font.init()
-    current_string = []
-    display_box(screen, question + ": " + string.join(current_string, ""))
-    while 1:
-        keys = pygame.key.get_pressed
-        if keys[pygame.K_BACKSPACE]:
-            current_string = current_string[0:-1]
-        elif keys[pygame.K_RETURN]:
-            break
-        elif keys[pygame.K_MINUS]:
-            current_string.append("_")
-        elif keys[k] <= 127:
-            current_string.append(chr(inkey))
-        display_box(screen, question + ": " + string.join(current_string, ""))
-    return string.join(current_string, "")
-
-
 pygame.init()
 font = pygame.font.SysFont("inkfree", 25)
 input_rect = pygame.Rect(200, 230, 140, 32)
