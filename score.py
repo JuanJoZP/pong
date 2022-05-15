@@ -4,7 +4,7 @@ from config import WINDOWWIDTH
 
 def draw_score(screen, p1, p2):
     """Draws the score in the main screen
-    
+
     Parameters
     ----------
     screen: pygame.Surface
@@ -14,8 +14,8 @@ def draw_score(screen, p1, p2):
     p2: Paddle
         the paddle object corresponding to the player 2
     """
-    
-    message = "P1 {}  -  {} P2".format(p1, p2)
+
+    message = "{} {}  -  {} {}".format(p1[0], p1[1], p2[0], p2[1])
 
     font = pygame.font.Font("freesansbold.ttf", 32)
     text = font.render(message, True, "white", "black")
