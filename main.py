@@ -2,6 +2,7 @@ import pygame
 from game import game_1v1, game1vsCPU
 from menu import menu
 from inputs import inputs
+from end import end
 from config import BLACK, SIZE, FPS
 from settings import settings
 
@@ -38,6 +39,8 @@ def main():
             game1vsCPU(screen, state)
         if state["n"] == 5:
             game_1v1(screen, state)
+        if state["n"] == 6:  # end of the game
+            end(screen, state)
 
         pygame.display.update()
         clock.tick(FPS)

@@ -72,8 +72,23 @@ def game_1v1(screen, state):
         paddleplayer2.scorePoint()
         ball.reset(0)
 
-    if paddleplayer1.getPoints() == 7 or paddleplayer2.getPoints() == 7:  # TEMPORAL
-        return
+    if (
+        int(timer_s) - counter <= 0
+        or paddleplayer1.getPoints() >= int(state["data"]["max_score"])
+        or paddleplayer2.getPoints() >= int(state["data"]["max_score"])
+    ):
+        p1_name = state["data"]["p1_name"]
+        p2_name = state["data"]["p2_name"]
+        winner = ""
+        if paddleplayer1.getPoints() > paddleplayer2.getPoints():
+            winner = p1_name
+        elif paddleplayer1.getPoints() < paddleplayer2.getPoints():
+            winner = p2_name
+        else:
+            winner = "draw"
+
+        state["data"]["winner"] = winner
+        state["n"] = 6
 
     # elements display
     screen.fill(BLACK)
@@ -130,8 +145,23 @@ def game1vsCPU(screen, state):
         paddleplayer2.scorePoint()
         ball.reset(0)
 
-    if paddleplayer1.getPoints() == 7 or paddleplayer2.getPoints() == 7:  # TEMPORAL
-        return
+    if (
+        int(timer_s) - counter <= 0
+        or paddleplayer1.getPoints() >= int(state["data"]["max_score"])
+        or paddleplayer2.getPoints() >= int(state["data"]["max_score"])
+    ):
+        p1_name = state["data"]["p1_name"]
+        p2_name = "CPU"
+        winner = ""
+        if paddleplayer1.getPoints() > paddleplayer2.getPoints():
+            winner = p1_name
+        elif paddleplayer1.getPoints() < paddleplayer2.getPoints():
+            winner = p2_name
+        else:
+            winner = "draw"
+
+        state["data"]["winner"] = winner
+        state["n"] = 6
 
     # elements display
     screen.fill(BLACK)
