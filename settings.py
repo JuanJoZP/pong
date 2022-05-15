@@ -15,11 +15,14 @@ def settings(screen, state):
 
     screen.blit(background2, (0, 0))
 
+    paddle_v = config.settings["PADDLE_VELOCITY"]
+    ball_v = config.settings["BALL_VELOCITY"]
+
     menu_mouse_position = pygame.mouse.get_pos()
     menu_text = get_font(50).render("Settings", True, "WHITE")
-    paddle_text = get_font(50).render(f"{config.PADDLE_VELOCITY}", True, "WHITE")
+    paddle_text = get_font(50).render(f"{paddle_v}", True, "WHITE")
     paddle_rect = paddle_text.get_rect(center=(465, 270))
-    ball_text = get_font(50).render(f"{config.BALL_VELOCITY}", True, "WHITE")
+    ball_text = get_font(50).render(f"{ball_v}", True, "WHITE")
     ball_rect = ball_text.get_rect(center=(465, 370))
     menu_rect = menu_text.get_rect(center=(465, 70))
 
@@ -80,25 +83,24 @@ def settings(screen, state):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if back_button.checkForInput(menu_mouse_position):
                 state["n"] = 0
-                print(state["n"])
             if more_velocity_paddle.checkForInput(menu_mouse_position):
-                if config.PADDLE_VELOCITY == 10:
+                if config.settings["PADDLE_VELOCITY"] == 10:
                     pass
                 else:
-                    config.PADDLE_VELOCITY += 1
+                    config.settings["PADDLE_VELOCITY"] += 1
             if less_velocity_paddle.checkForInput(menu_mouse_position):
-                if config.PADDLE_VELOCITY == 5:
+                if config.settings["PADDLE_VELOCITY"] == 5:
                     pass
                 else:
-                    config.PADDLE_VELOCITY -= 1
+                    config.settings["PADDLE_VELOCITY"] -= 1
             if more_velocity_ball.checkForInput(menu_mouse_position):
-                if config.BALL_VELOCITY == 15:
+                if config.settings["BALL_VELOCITY"] == 15:
                     pass
                 else:
-                    config.BALL_VELOCITY += 1
+                    config.settings["BALL_VELOCITY"] += 1
             if less_velocity_ball.checkForInput(menu_mouse_position):
-                if config.BALL_VELOCITY == 7:
+                if config.settings["BALL_VELOCITY"] == 7:
                     pass
                 else:
-                    config.BALL_VELOCITY -= 1
-    paddle_text = get_font(50).render(f"{config.PADDLE_VELOCITY}", True, "WHITE")
+                    config.settings["BALL_VELOCITY"] -= 1
+    paddle_text = get_font(50).render(f"{paddle_v}", True, "WHITE")

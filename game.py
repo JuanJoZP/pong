@@ -6,7 +6,7 @@ from config import (
     BLACK,
     PADDLE_WIDTH,
     PADDLE_HEIGHT,
-    PADDLE_VELOCITY,
+    settings,
     PADDLE_XSPACING,
     FPS,
     WHITE,
@@ -51,13 +51,13 @@ def game_1v1(screen, state):
     # key events
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        paddleplayer1.moveUp(PADDLE_VELOCITY)
+        paddleplayer1.moveUp(settings["PADDLE_VELOCITY"])
     if keys[pygame.K_s]:
-        paddleplayer1.moveDown(PADDLE_VELOCITY)
+        paddleplayer1.moveDown(settings["PADDLE_VELOCITY"])
     if keys[pygame.K_UP]:
-        paddleplayer2.moveUp(PADDLE_VELOCITY)
+        paddleplayer2.moveUp(settings["PADDLE_VELOCITY"])
     if keys[pygame.K_DOWN]:
-        paddleplayer2.moveDown(PADDLE_VELOCITY)
+        paddleplayer2.moveDown(settings["PADDLE_VELOCITY"])
     if (not keys[pygame.K_w]) and (not keys[pygame.K_s]):
         paddleplayer1.action = 0
     if (not keys[pygame.K_UP]) and (not keys[pygame.K_DOWN]):
@@ -123,16 +123,16 @@ def game1vsCPU(screen, state):
     # key events
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        paddleplayer1.moveUp(PADDLE_VELOCITY)
+        paddleplayer1.moveUp(settings["PADDLE_VELOCITY"])
     if keys[pygame.K_s]:
-        paddleplayer1.moveDown(PADDLE_VELOCITY)
+        paddleplayer1.moveDown(settings["PADDLE_VELOCITY"])
     if (not keys[pygame.K_w]) and (not keys[pygame.K_s]):
         paddleplayer1.action = 0
 
     if paddleplayer2.rect.midleft[1] < ball.rect.midleft[1]:
-        paddleplayer2.moveDown(PADDLE_VELOCITY)
+        paddleplayer2.moveDown(settings["PADDLE_VELOCITY"])
     elif paddleplayer2.rect.midleft[1] > ball.rect.midleft[1]:
-        paddleplayer2.moveUp(PADDLE_VELOCITY / 2)
+        paddleplayer2.moveUp(settings["PADDLE_VELOCITY"] / 2)
     else:
         paddleplayer2.action = 0
 

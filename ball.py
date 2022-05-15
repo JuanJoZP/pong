@@ -5,7 +5,7 @@ from config import (
     WINDOWHEIGHT,
     WINDOWWIDTH,
     FPS,
-    BALL_VELOCITY,
+    settings,
     DIRECTION_MULTIPLIER,
     DIRECTION_MAX,
 )
@@ -19,7 +19,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = WINDOWWIDTH / 2  # initial position
         self.rect.y = WINDOWHEIGHT / 2
-        self.direction = (-BALL_VELOCITY, 0)  # start moving right
+        self.direction = (-settings["BALL_VELOCITY"], 0)  # start moving right
 
         self.pause = PAUSE_TIME  # pause in seconds, only for the ball
 
@@ -52,9 +52,9 @@ class Ball(pygame.sprite.Sprite):
         self.rect.y = WINDOWHEIGHT / 2
 
         if direction:  # 1 for right, 0 for left
-            self.direction = (BALL_VELOCITY, 0)
+            self.direction = (settings["BALL_VELOCITY"], 0)
         else:
-            self.direction = (-BALL_VELOCITY, 0)
+            self.direction = (-settings["BALL_VELOCITY"], 0)
 
         self.pause = PAUSE_TIME
 
